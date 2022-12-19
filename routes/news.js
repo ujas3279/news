@@ -31,6 +31,13 @@ const {saveNews,getNews} = require("../controllers/news");
 
 // router.get("/wallpapers/categories",getAllUniqueCategories)
 router.get("/news/save", saveNews);
-router.get("/news/all", getNews)
+router.get("/news/all", getNews);
+router.get("/news/business", getNews);
+router.get("/news/entertainment", getNews);
+router.get("/news/science", getNews);
+router.get("/news/general", getNews);
+router.get("/news/sports", getNews);
+router.get("/news/technology", getNews);
+router.get("/news/health", getNews);
 
 module.exports = router;
