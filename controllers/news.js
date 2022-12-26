@@ -189,3 +189,48 @@ exports.getCategories = (req,res)=>{
     });
 }
 
+exports.getHomeNews = async (req,res)=>{
+    let businessNews = await Business.find().limit(2).exec();
+    let healthNews = await Health.find().limit(2).exec();
+    let scienceNews = await Science.find().limit(2).exec();
+    let generalNews = await General.find().limit(2).exec();
+    let technologyNews = await Technology.find().limit(2).exec();
+    let entertainmentNews = await Entertainment.find().limit(2).exec();
+    let sportsNews = await Sports.find().limit(2).exec();
+
+    return res.json({
+        message:"success",
+        success: true,
+        data:[
+            {
+                'category' : 'Business',
+                data :  businessNews
+            },
+            {
+                'category' : 'Entertainment',
+                data :  entertainmentNews
+            },
+            {
+                'category' : 'Science',
+                data :  scienceNews
+            },
+            {
+                'category' : 'Technology',
+                data :  technologyNews
+            },
+            {
+                'category' : 'General',
+                data :  generalNews
+            },
+            {
+                'category' : 'Sports',
+                data : sportsNews
+            },
+            {
+                'category' : 'Health',
+                data :  healthNews
+            }
+        ]
+      });
+    
+}
