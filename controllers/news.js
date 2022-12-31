@@ -19,11 +19,11 @@ const { url } = require('inspector');
 
 
 exports.saveNews = (req,res)=>{
-    const uri = 'https://newsapi.org/v2/top-headlines?country=in&category=science&pageSize=100&apiKey=2b1dd5e264704c8ab24d81980d9cf267'
+    const uri = 'https://newsapi.org/v2/top-headlines?country=us&category=Sports&pageSize=100&apiKey=2b1dd5e264704c8ab24d81980d9cf267'
     axios.get(uri)
     .then((res) =>{
         res.data.articles.forEach(news => {
-          let data = new Science({
+          let data = new News({
             author : news.author,
             content : news.content,
             description : news.description,
@@ -46,7 +46,7 @@ exports.saveNews = (req,res)=>{
     
 }
 exports.getNews = (req,res)=>{
-    News.find().exec((err,data)=>{
+    News.find().sort({publishedAt : -1}).exec((err,data)=>{
         return res.json({
             message:"success",
             success: true,
@@ -62,7 +62,7 @@ exports.getNews = (req,res)=>{
 }
 
 exports.getHealthNews = (req,res)=>{
-    Health.find().exec((err,data)=>{
+    Health.find().sort({publishedAt : -1}).exec((err,data)=>{
         return res.json({
             message:"success",
             success: true,
@@ -78,7 +78,7 @@ exports.getHealthNews = (req,res)=>{
 }
 
 exports.getTechnologyNews = (req,res)=>{
-    Technology.find().exec((err,data)=>{
+    Technology.find().sort({publishedAt : -1}).exec((err,data)=>{
         return res.json({
             message:"success",
             success: true,
@@ -94,7 +94,7 @@ exports.getTechnologyNews = (req,res)=>{
 }
 
 exports.getSportsNews = (req,res)=>{
-    Sports.find().exec((err,data)=>{
+    Sports.find().sort({publishedAt : -1}).exec((err,data)=>{
         return res.json({
             message:"success",
             success: true,
@@ -110,7 +110,7 @@ exports.getSportsNews = (req,res)=>{
 }
 
 exports.getGeneralNews = (req,res)=>{
-    General.find().exec((err,data)=>{
+    General.find().sort({publishedAt : -1}).exec((err,data)=>{
         return res.json({
             message:"success",
             success: true,
@@ -126,7 +126,7 @@ exports.getGeneralNews = (req,res)=>{
 }
 
 exports.getScienceNews = (req,res)=>{
-    Science.find().exec((err,data)=>{
+    Science.find().sort({publishedAt : -1}).exec((err,data)=>{
         return res.json({
             message:"success",
             success: true,
@@ -142,7 +142,7 @@ exports.getScienceNews = (req,res)=>{
 }
 
 exports.getEntertainmentNews = (req,res)=>{
-    Entertainment.find().exec((err,data)=>{
+    Entertainment.find().sort({publishedAt : -1}).exec((err,data)=>{
         return res.json({
             message:"success",
             success: true,
@@ -158,7 +158,7 @@ exports.getEntertainmentNews = (req,res)=>{
 }
 
 exports.getBusinessNews = (req,res)=>{
-    Business.find().exec((err,data)=>{
+    Business.find().sort({publishedAt : -1}).exec((err,data)=>{
         return res.json({
             message:"success",
             success: true,
@@ -190,13 +190,13 @@ exports.getCategories = (req,res)=>{
 }
 
 exports.getHomeNews = async (req,res)=>{
-    let businessNews = await Business.find().limit(2).exec();
-    let healthNews = await Health.find().limit(2).exec();
-    let scienceNews = await Science.find().limit(2).exec();
-    let generalNews = await General.find().limit(2).exec();
-    let technologyNews = await Technology.find().limit(2).exec();
-    let entertainmentNews = await Entertainment.find().limit(2).exec();
-    let sportsNews = await Sports.find().limit(2).exec();
+    let businessNews = await Business.find().sort({publishedAt : -1}).limit(2).exec();
+    let healthNews = await Health.find().sort({publishedAt : -1}).limit(2).exec();
+    let scienceNews = await Science.find().sort({publishedAt : -1}).limit(2).exec();
+    let generalNews = await General.find().sort({publishedAt : -1}).limit(2).exec();
+    let technologyNews = await Technology.find().sort({publishedAt : -1}).limit(2).exec();
+    let entertainmentNews = await Entertainment.find().sort({publishedAt : -1}).limit(2).exec();
+    let sportsNews = await Sports.find().sort({publishedAt : -1}).limit(2).exec();
 
     return res.json({
         message:"success",
