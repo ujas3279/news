@@ -197,40 +197,20 @@ exports.getHomeNews = async (req,res)=>{
     let technologyNews = await Technology.find().sort({publishedAt : -1}).limit(2).exec();
     let entertainmentNews = await Entertainment.find().sort({publishedAt : -1}).limit(2).exec();
     let sportsNews = await Sports.find().sort({publishedAt : -1}).limit(2).exec();
+    for (let index = 0; index < healthNews.length; index++) {
+        businessNews.push(healthNews[index]);
+        businessNews.push(scienceNews[index]);
+        businessNews.push(generalNews[index]);
+        businessNews.push(technologyNews[index]);
+        businessNews.push(entertainmentNews[index]);
+        businessNews.push(sportsNews[index]);
+        
+    }
 
     return res.json({
         message:"success",
         success: true,
-        data:[
-            {
-                'category' : 'Business',
-                data :  businessNews
-            },
-            {
-                'category' : 'Entertainment',
-                data :  entertainmentNews
-            },
-            {
-                'category' : 'Science',
-                data :  scienceNews
-            },
-            {
-                'category' : 'Technology',
-                data :  technologyNews
-            },
-            {
-                'category' : 'General',
-                data :  generalNews
-            },
-            {
-                'category' : 'Sports',
-                data : sportsNews
-            },
-            {
-                'category' : 'Health',
-                data :  healthNews
-            }
-        ]
+        data:businessNews
       });
     
 }
