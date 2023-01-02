@@ -19,11 +19,11 @@ const { url } = require('inspector');
 
 
 exports.saveNews = (req,res)=>{
-    const uri = 'https://newsapi.org/v2/top-headlines?country=us&category=Sports&pageSize=100&apiKey=2b1dd5e264704c8ab24d81980d9cf267'
+    const uri = 'https://newsapi.org/v2/top-headlines?country=in&category=Science&apiKey=2b1dd5e264704c8ab24d81980d9cf267&pageSize=100'
     axios.get(uri)
     .then((res) =>{
         res.data.articles.forEach(news => {
-          let data = new News({
+          let data = new Science({
             author : news.author,
             content : news.content,
             description : news.description,
@@ -46,14 +46,20 @@ exports.saveNews = (req,res)=>{
     
 }
 exports.getNews = (req,res)=>{
-    News.find().sort({publishedAt : -1}).exec((err,data)=>{
+    let limit = req.query.limit ? parseInt(req.query.limit) : 20;
+    let page = req.query.page ? parseInt(req.query.page) : 1;
+    News.find().sort({publishedAt : -1})
+    .skip((page-1) * limit)
+    .limit(limit)
+    .exec(async (err,data)=>{
+        const count = await News.countDocuments();
         return res.json({
             message:"success",
             success: true,
             data:{
-            total_data: data.length,
-            total_page: 1,
-            page: 1,
+            total_data: count,
+            total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
+            page: page,
             pageSize: data.length,
             data: data
             }
@@ -62,14 +68,20 @@ exports.getNews = (req,res)=>{
 }
 
 exports.getHealthNews = (req,res)=>{
-    Health.find().sort({publishedAt : -1}).exec((err,data)=>{
+    let limit = req.query.limit ? parseInt(req.query.limit) : 20;
+    let page = req.query.page ? parseInt(req.query.page) : 1;
+    Health.find().sort({publishedAt : -1})
+    .skip((page-1) * limit)
+    .limit(limit)
+    .exec(async (err,data)=>{
+        const count = await Health.countDocuments();
         return res.json({
             message:"success",
             success: true,
             data:{
-            total_data: data.length,
-            total_page: 1,
-            page: 1,
+            total_data: count,
+            total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
+            page: page,
             pageSize: data.length,
             data: data
             }
@@ -78,14 +90,20 @@ exports.getHealthNews = (req,res)=>{
 }
 
 exports.getTechnologyNews = (req,res)=>{
-    Technology.find().sort({publishedAt : -1}).exec((err,data)=>{
+    let limit = req.query.limit ? parseInt(req.query.limit) : 20;
+    let page = req.query.page ? parseInt(req.query.page) : 1;
+    Technology.find().sort({publishedAt : -1})
+    .skip((page-1) * limit)
+    .limit(limit)
+    .exec(async (err,data)=>{
+        const count = await Technology.countDocuments();
         return res.json({
             message:"success",
             success: true,
             data:{
-            total_data: data.length,
-            total_page: 1,
-            page: 1,
+            total_data: count,
+            total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
+            page: page,
             pageSize: data.length,
             data: data
             }
@@ -94,14 +112,20 @@ exports.getTechnologyNews = (req,res)=>{
 }
 
 exports.getSportsNews = (req,res)=>{
-    Sports.find().sort({publishedAt : -1}).exec((err,data)=>{
+    let limit = req.query.limit ? parseInt(req.query.limit) : 20;
+    let page = req.query.page ? parseInt(req.query.page) : 1;
+    Sports.find().sort({publishedAt : -1})
+    .skip((page-1) * limit)
+    .limit(limit)
+    .exec(async (err,data)=>{
+        const count = await Sports.countDocuments();
         return res.json({
             message:"success",
             success: true,
             data:{
-            total_data: data.length,
-            total_page: 1,
-            page: 1,
+            total_data: count,
+            total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
+            page: page,
             pageSize: data.length,
             data: data
             }
@@ -110,14 +134,20 @@ exports.getSportsNews = (req,res)=>{
 }
 
 exports.getGeneralNews = (req,res)=>{
-    General.find().sort({publishedAt : -1}).exec((err,data)=>{
+    let limit = req.query.limit ? parseInt(req.query.limit) : 20;
+    let page = req.query.page ? parseInt(req.query.page) : 1;
+    General.find().sort({publishedAt : -1})
+    .skip((page-1) * limit)
+    .limit(limit)
+    .exec(async (err,data)=>{
+        const count = await General.countDocuments();
         return res.json({
             message:"success",
             success: true,
             data:{
-            total_data: data.length,
-            total_page: 1,
-            page: 1,
+            total_data: count,
+            total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
+            page: page,
             pageSize: data.length,
             data: data
             }
@@ -126,14 +156,20 @@ exports.getGeneralNews = (req,res)=>{
 }
 
 exports.getScienceNews = (req,res)=>{
-    Science.find().sort({publishedAt : -1}).exec((err,data)=>{
+    let limit = req.query.limit ? parseInt(req.query.limit) : 20;
+    let page = req.query.page ? parseInt(req.query.page) : 1;
+    Science.find().sort({publishedAt : -1})
+    .skip((page-1) * limit)
+    .limit(limit)
+    .exec(async (err,data)=>{
+        const count = await Science.countDocuments();
         return res.json({
             message:"success",
             success: true,
             data:{
-            total_data: data.length,
-            total_page: 1,
-            page: 1,
+            total_data: count,
+            total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
+            page: page,
             pageSize: data.length,
             data: data
             }
@@ -142,14 +178,20 @@ exports.getScienceNews = (req,res)=>{
 }
 
 exports.getEntertainmentNews = (req,res)=>{
-    Entertainment.find().sort({publishedAt : -1}).exec((err,data)=>{
+    let limit = req.query.limit ? parseInt(req.query.limit) : 20;
+    let page = req.query.page ? parseInt(req.query.page) : 1;
+    Entertainment.find().sort({publishedAt : -1})
+    .skip((page-1) * limit)
+    .limit(limit)
+    .exec(async (err,data)=>{
+        const count = await Entertainment.countDocuments();
         return res.json({
             message:"success",
             success: true,
             data:{
-            total_data: data.length,
-            total_page: 1,
-            page: 1,
+            total_data: count,
+            total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
+            page: page,
             pageSize: data.length,
             data: data
             }
@@ -158,14 +200,20 @@ exports.getEntertainmentNews = (req,res)=>{
 }
 
 exports.getBusinessNews = (req,res)=>{
-    Business.find().sort({publishedAt : -1}).exec((err,data)=>{
+    let limit = req.query.limit ? parseInt(req.query.limit) : 20;
+    let page = req.query.page ? parseInt(req.query.page) : 1;
+    Business.find().sort({publishedAt : -1})
+    .skip((page-1) * limit)
+    .limit(limit)
+    .exec(async (err,data)=>{
+        const count = await Business.countDocuments();
         return res.json({
             message:"success",
             success: true,
             data:{
-            total_data: data.length,
-            total_page: 1,
-            page: 1,
+            total_data: count,
+            total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
+            page: page,
             pageSize: data.length,
             data: data
             }
@@ -174,14 +222,20 @@ exports.getBusinessNews = (req,res)=>{
 }
 
 exports.getCategories = (req,res)=>{
-    Category.find().exec((err,data)=>{
+    let limit = req.query.limit ? parseInt(req.query.limit) : 20;
+    let page = req.query.page ? parseInt(req.query.page) : 1;
+    News.find().sort({publishedAt : -1})
+    .skip((page-1) * limit)
+    .limit(limit)
+    .exec(async (err,data)=>{
+        const count = await News.countDocuments();
         return res.json({
             message:"success",
             success: true,
             data:{
-            total_data: data.length,
-            total_page: 1,
-            page: 1,
+            total_data: count,
+            total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
+            page: page,
             pageSize: data.length,
             data: data
             }
