@@ -222,20 +222,15 @@ exports.getBusinessNews = (req,res)=>{
 }
 
 exports.getCategories = (req,res)=>{
-    let limit = req.query.limit ? parseInt(req.query.limit) : 20;
-    let page = req.query.page ? parseInt(req.query.page) : 1;
-    News.find().sort({publishedAt : -1})
-    .skip((page-1) * limit)
-    .limit(limit)
-    .exec(async (err,data)=>{
-        const count = await News.countDocuments();
+    
+    Category.find().exec((err,data)=>{
         return res.json({
             message:"success",
             success: true,
             data:{
-            total_data: count,
-            total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
-            page: page,
+            total_data: data.length,
+            total_page: 1,
+            page: 1,
             pageSize: data.length,
             data: data
             }
