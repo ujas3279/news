@@ -18,32 +18,160 @@ const { networkInterfaces } = require('os');
 const { url } = require('inspector');
 
 
-exports.saveNews = (req,res)=>{
-    const uri = 'https://newsapi.org/v2/top-headlines?country=in&category=Science&apiKey=2b1dd5e264704c8ab24d81980d9cf267&pageSize=100'
+exports.saveNews = async (req,res)=>{
+    let category = req.query.category ? req.query.category : 'Business';
+    var newFlag = true;
+    const uri = `https://newsapi.org/v2/top-headlines?country=in&category=${category}&apiKey=2b1dd5e264704c8ab24d81980d9cf267&pageSize=100`;
+    let businessNews;
+    if (category == 'Business') {
+        businessNews = await Business.find().sort({publishedAt : -1}).limit(1).exec();
+    }
+    else if(category == 'Science') {
+      businessNews = await Science.find().sort({publishedAt : -1}).limit(1).exec();
+    }
+    else if(category == 'Sports') {
+        businessNews = await Sports.find().sort({publishedAt : -1}).limit(1).exec();
+      }
+      else if(category == 'Entertainment') {
+        businessNews = await Entertainment.find().sort({publishedAt : -1}).limit(1).exec();
+      }
+      else if(category == 'General') {
+        businessNews = await General.find().sort({publishedAt : -1}).limit(1).exec();
+      }
+      else if(category == 'Health') {
+        businessNews = await Health.find().sort({publishedAt : -1}).limit(1).exec();
+      } else {
+        businessNews = await Technology.find().sort({publishedAt : -1}).limit(1).exec();
+      }
     axios.get(uri)
     .then((res) =>{
         res.data.articles.forEach(news => {
-          let data = new Science({
-            author : news.author,
-            content : news.content,
-            description : news.description,
-            publishedAt : news.publishedAt,
-            sourceId : news?.source?.id ?? null,
-            sourceName : news.source?.name ?? null,
-            title : news.title,
-            url : news.url,
-            urlToImage : news.urlToImage
-          });
-          data.save((err,news)=>{
-            if(err) {
-                console.log(err);
-            } else
-            console.log(news);
-          });
+          let data;
+          if (businessNews[0].title !== news.title && businessNews[0].description !== news.description && newFlag){
+            if ( category =='Business') {
+                data = new Business({
+                    author : news.author,
+                    content : news.content,
+                    description : news.description,
+                    publishedAt : news.publishedAt,
+                    sourceId : news?.source?.id ?? null,
+                    sourceName : news.source?.name ?? null,
+                    title : news.title,
+                    url : news.url,
+                    urlToImage : news.urlToImage
+                });
+            }
+            else if ( category =='Sports') {
+                 data = new Sports({
+                    author : news.author,
+                    content : news.content,
+                    description : news.description,
+                    publishedAt : news.publishedAt,
+                    sourceId : news?.source?.id ?? null,
+                    sourceName : news.source?.name ?? null,
+                    title : news.title,
+                    url : news.url,
+                    urlToImage : news.urlToImage
+                });
+            }
+            else if ( category =='Entertainment') {
+              data = new Entertainment({
+                    author : news.author,
+                    content : news.content,
+                    description : news.description,
+                    publishedAt : news.publishedAt,
+                    sourceId : news?.source?.id ?? null,
+                    sourceName : news.source?.name ?? null,
+                    title : news.title,
+                    url : news.url,
+                    urlToImage : news.urlToImage
+                });
+            }
+            else if ( category =='General') {
+                data = new General({
+                    author : news.author,
+                    content : news.content,
+                    description : news.description,
+                    publishedAt : news.publishedAt,
+                    sourceId : news?.source?.id ?? null,
+                    sourceName : news.source?.name ?? null,
+                    title : news.title,
+                    url : news.url,
+                    urlToImage : news.urlToImage
+                });
+            }
+            else if ( category =='Health') {
+                 data = new Health({
+                    author : news.author,
+                    content : news.content,
+                    description : news.description,
+                    publishedAt : news.publishedAt,
+                    sourceId : news?.source?.id ?? null,
+                    sourceName : news.source?.name ?? null,
+                    title : news.title,
+                    url : news.url,
+                    urlToImage : news.urlToImage
+                });
+            }
+            else if ( category =='Technology') {
+               data = new Technology({
+                    author : news.author,
+                    content : news.content,
+                    description : news.description,
+                    publishedAt : news.publishedAt,
+                    sourceId : news?.source?.id ?? null,
+                    sourceName : news.source?.name ?? null,
+                    title : news.title,
+                    url : news.url,
+                    urlToImage : news.urlToImage
+                });
+            }
+            else {
+                data = new Science({
+                    author : news.author,
+                    content : news.content,
+                    description : news.description,
+                    publishedAt : news.publishedAt,
+                    sourceId : news?.source?.id ?? null,
+                    sourceName : news.source?.name ?? null,
+                    title : news.title,
+                    url : news.url,
+                    urlToImage : news.urlToImage
+                });
+            }
+            let homeNews = new News({
+                author : news.author,
+                content : news.content,
+                description : news.description,
+                publishedAt : news.publishedAt,
+                sourceId : news?.source?.id ?? null,
+                sourceName : news.source?.name ?? null,
+                title : news.title,
+                url : news.url,
+                urlToImage : news.urlToImage
+            });
+            data.save((err,news)=>{
+                if(err) {
+                    console.log(err);
+                } else
+                console.log(news);
+            });
+            homeNews.save((err,news)=>{
+                if(err) {
+                    console.log(err);
+                } else
+                console.log(news);
+            });
+        } else {
+            newFlag = false;
+        }
         });
     })
     .catch(err => console.log(err))
-    
+    return res.json({
+        message:"success",
+        success: true,
+      });
 }
 exports.getNews = (req,res)=>{
     let limit = req.query.limit ? parseInt(req.query.limit) : 20;
