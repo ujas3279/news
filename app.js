@@ -40,7 +40,7 @@ const port = process.env.PORT || 5000;
 
 //Starting server
 connectDB().then(() => {
-    app.listen(PORT, () => {
+    app.listen(port, () => {
         console.log("listening for requests");
     })
 })
