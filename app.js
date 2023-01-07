@@ -11,7 +11,21 @@ const cors = require("cors");
 const newsRoutes = require("./routes/news");
 
 
-
+const connectDB = async () => {
+  try {
+    mongoose.connect(process.env.DATABASE, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+     }).then(() => {
+         console.log("DB connected");
+     }).catch(
+         console.log("DB not connected")
+     );
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
+}
 
 //Middlewear
  app.use(bodyParser.json());
@@ -25,16 +39,11 @@ app.use("/api", newsRoutes);
 const port = process.env.PORT || 5000;
 
 //Starting server
-app.listen(port, () => {
-    console.log(`app is running at ${port}`);
-} );
+connectDB().then(() => {
+    app.listen(PORT, () => {
+        console.log("listening for requests");
+    })
+})
 
 // DB connection
-mongoose.connect(process.env.DATABASE, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}).then(() => {
-    console.log("DB connected");
-}).catch(
-    console.log("DB not connected")
-);
+
