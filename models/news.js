@@ -20,6 +20,7 @@ const newsSchema = new mongoose.Schema({
     },
     description: {
         type: String,
+        unique: true,
         trim: true
     },
     url: {
