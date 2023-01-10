@@ -198,7 +198,7 @@ exports.getNews = (req,res)=>{
             total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
             page: page,
             pageSize: result.length,
-            data: result
+            data: JSON.parse(JSON.stringify(result))
             }
           });
     });
@@ -231,7 +231,7 @@ exports.getHealthNews = (req,res)=>{
             total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
             page: page,
             pageSize: result.length,
-            data: result
+            data: JSON.parse(JSON.stringify(result))
             }
           });
     });
@@ -264,7 +264,7 @@ exports.getTechnologyNews = (req,res)=>{
             total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
             page: page,
             pageSize: result.length,
-            data: result
+            data: JSON.parse(JSON.stringify(result))
             }
           });
     });
@@ -297,7 +297,7 @@ exports.getSportsNews = (req,res)=>{
             total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
             page: page,
             pageSize: result.length,
-            data: result
+            data: JSON.parse(JSON.stringify(result))
             }
           });
     });
@@ -330,7 +330,7 @@ exports.getGeneralNews = (req,res)=>{
             total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
             page: page,
             pageSize: result.length,
-            data: result
+            data: JSON.parse(JSON.stringify(result))
             }
           });
     });
@@ -363,7 +363,7 @@ exports.getScienceNews = (req,res)=>{
             total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
             page: page,
             pageSize: result.length,
-            data: result
+            data: JSON.parse(JSON.stringify(result))
             }
           });
     });
@@ -396,7 +396,7 @@ exports.getEntertainmentNews = (req,res)=>{
             total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
             page: page,
             pageSize: result.length,
-            data: result
+            data: JSON.parse(JSON.stringify(result))
             }
           });
     });
@@ -429,7 +429,7 @@ exports.getBusinessNews = (req,res)=>{
             total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
             page: page,
             pageSize: result.length,
-            data: result
+            data: JSON.parse(JSON.stringify(result))
             }
           });
     });
@@ -483,7 +483,7 @@ exports.getHomeNews = async (req,res)=>{
     return res.json({
         message:"success",
         success: true,
-        data:result
+        data:JSON.parse(JSON.stringify(result))
       });
     
 }
