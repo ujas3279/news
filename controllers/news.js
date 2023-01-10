@@ -181,6 +181,15 @@ exports.getNews = (req,res)=>{
     .limit(limit)
     .exec(async (err,data)=>{
         const count = await News.countDocuments();
+        var lookup = {};
+        var result = [];
+        for (var item, i = 0; item = data[i++];) {
+            var name = item.title;
+            if (!(name in lookup)) {
+                lookup[name] = 1;
+                result.push(data[i]);
+            }
+        }
         return res.json({
             message:"success",
             success: true,
@@ -188,8 +197,8 @@ exports.getNews = (req,res)=>{
             total_data: count,
             total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
             page: page,
-            pageSize: data.length,
-            data: data
+            pageSize: result.length,
+            data: result
             }
           });
     });
@@ -203,6 +212,17 @@ exports.getHealthNews = (req,res)=>{
     .limit(limit)
     .exec(async (err,data)=>{
         const count = await Health.countDocuments();
+        var lookup = {};
+        var result = [];
+
+        for (var item, i = 0; item = data[i++];) {
+            var name = item.title;
+
+            if (!(name in lookup)) {
+                lookup[name] = 1;
+                result.push(data[i]);
+            }
+        }
         return res.json({
             message:"success",
             success: true,
@@ -210,8 +230,8 @@ exports.getHealthNews = (req,res)=>{
             total_data: count,
             total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
             page: page,
-            pageSize: data.length,
-            data: data
+            pageSize: result.length,
+            data: result
             }
           });
     });
@@ -225,6 +245,17 @@ exports.getTechnologyNews = (req,res)=>{
     .limit(limit)
     .exec(async (err,data)=>{
         const count = await Technology.countDocuments();
+        var lookup = {};
+        var result = [];
+
+        for (var item, i = 0; item = data[i++];) {
+            var name = item.title;
+
+            if (!(name in lookup)) {
+                lookup[name] = 1;
+                result.push(data[i]);
+            }
+        }
         return res.json({
             message:"success",
             success: true,
@@ -232,8 +263,8 @@ exports.getTechnologyNews = (req,res)=>{
             total_data: count,
             total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
             page: page,
-            pageSize: data.length,
-            data: data
+            pageSize: result.length,
+            data: result
             }
           });
     });
@@ -247,6 +278,17 @@ exports.getSportsNews = (req,res)=>{
     .limit(limit)
     .exec(async (err,data)=>{
         const count = await Sports.countDocuments();
+        var lookup = {};
+        var result = [];
+
+        for (var item, i = 0; item = data[i++];) {
+            var name = item.title;
+
+            if (!(name in lookup)) {
+                lookup[name] = 1;
+                result.push(data[i]);
+            }
+        }
         return res.json({
             message:"success",
             success: true,
@@ -254,8 +296,8 @@ exports.getSportsNews = (req,res)=>{
             total_data: count,
             total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
             page: page,
-            pageSize: data.length,
-            data: data
+            pageSize: result.length,
+            data: result
             }
           });
     });
@@ -269,6 +311,17 @@ exports.getGeneralNews = (req,res)=>{
     .limit(limit)
     .exec(async (err,data)=>{
         const count = await General.countDocuments();
+        var lookup = {};
+        var result = [];
+
+        for (var item, i = 0; item = data[i++];) {
+            var name = item.title;
+
+            if (!(name in lookup)) {
+                lookup[name] = 1;
+                result.push(data[i]);
+            }
+        }
         return res.json({
             message:"success",
             success: true,
@@ -276,8 +329,8 @@ exports.getGeneralNews = (req,res)=>{
             total_data: count,
             total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
             page: page,
-            pageSize: data.length,
-            data: data
+            pageSize: result.length,
+            data: result
             }
           });
     });
@@ -291,6 +344,17 @@ exports.getScienceNews = (req,res)=>{
     .limit(limit)
     .exec(async (err,data)=>{
         const count = await Science.countDocuments();
+        var lookup = {};
+        var result = [];
+
+        for (var item, i = 0; item = data[i++];) {
+            var name = item.title;
+
+            if (!(name in lookup)) {
+                lookup[name] = 1;
+                result.push(data[i]);
+            }
+        }
         return res.json({
             message:"success",
             success: true,
@@ -298,8 +362,8 @@ exports.getScienceNews = (req,res)=>{
             total_data: count,
             total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
             page: page,
-            pageSize: data.length,
-            data: data
+            pageSize: result.length,
+            data: result
             }
           });
     });
@@ -313,6 +377,17 @@ exports.getEntertainmentNews = (req,res)=>{
     .limit(limit)
     .exec(async (err,data)=>{
         const count = await Entertainment.countDocuments();
+        var lookup = {};
+        var result = [];
+
+        for (var item, i = 0; item = data[i++];) {
+            var name = item.title;
+
+            if (!(name in lookup)) {
+                lookup[name] = 1;
+                result.push(data[i]);
+            }
+        }
         return res.json({
             message:"success",
             success: true,
@@ -320,8 +395,8 @@ exports.getEntertainmentNews = (req,res)=>{
             total_data: count,
             total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
             page: page,
-            pageSize: data.length,
-            data: data
+            pageSize: result.length,
+            data: result
             }
           });
     });
@@ -335,6 +410,17 @@ exports.getBusinessNews = (req,res)=>{
     .limit(limit)
     .exec(async (err,data)=>{
         const count = await Business.countDocuments();
+        var lookup = {};
+        var result = [];
+
+        for (var item, i = 0; item = data[i++];) {
+            var name = item.title;
+
+            if (!(name in lookup)) {
+                lookup[name] = 1;
+                result.push(data[i]);
+            }
+        }
         return res.json({
             message:"success",
             success: true,
@@ -342,8 +428,8 @@ exports.getBusinessNews = (req,res)=>{
             total_data: count,
             total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
             page: page,
-            pageSize: data.length,
-            data: data
+            pageSize: result.length,
+            data: result
             }
           });
     });
@@ -383,11 +469,21 @@ exports.getHomeNews = async (req,res)=>{
         businessNews.push(sportsNews[index]);
         
     }
+    var lookup = {};
+    var result = [];
 
+    for (var item, i = 0; item = businessNews[i++];) {
+        var name = item.title;
+
+        if (!(name in lookup)) {
+            lookup[name] = 1;
+            result.push(businessNews[i]);
+        }
+    }
     return res.json({
         message:"success",
         success: true,
-        data:businessNews
+        data:result
       });
     
 }
