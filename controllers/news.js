@@ -47,7 +47,7 @@ exports.saveNews = async (req,res)=>{
     .then((res) =>{
         res.data.articles.forEach(news => {
           let data;
-          if (businessNews[0].title !== news.title && businessNews[0].description !== news.description && newFlag){
+          if (businessNews[0].title !== news.title && businessNews[0].description !== news.description && businessNews[0].url !== news.url && newFlag){
             if ( category =='Business') {
                 data = new Business({
                     author : news.author,
