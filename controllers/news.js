@@ -44,7 +44,7 @@ exports.saveNews = async (req,res)=>{
         businessNews = await Technology.find().sort({publishedAt : -1}).limit(1).exec();
       }
     axios.get(uri)
-    .then((res) =>{
+    .then(async (res) =>{
         res.data.articles.forEach(news => {
           let data;
           if (businessNews[0].title !== news.title && businessNews[0].description !== news.description && businessNews[0].url !== news.url && newFlag){
