@@ -49,6 +49,8 @@ exports.saveNews = async (req,res)=>{
           let data;
           if (businessNews[0].title !== news.title && businessNews[0].description !== news.description && businessNews[0].url !== news.url && newFlag){
             if ( category =='Business') {
+                let available = await Business.find({title:news.title}).exec();
+                if(!available) {
                 data = new Business({
                     author : news.author,
                     content : news.content,
@@ -60,8 +62,11 @@ exports.saveNews = async (req,res)=>{
                     url : news.url,
                     urlToImage : news.urlToImage
                 });
+                }
             }
             else if ( category =='Sports') {
+                 let available = await Sports.find({title:news.title}).exec();
+                if(!available) {
                  data = new Sports({
                     author : news.author,
                     content : news.content,
@@ -72,9 +77,11 @@ exports.saveNews = async (req,res)=>{
                     title : news.title,
                     url : news.url,
                     urlToImage : news.urlToImage
-                });
+                });}
             }
             else if ( category =='Entertainment') {
+               let available = await Entertainment.find({title:news.title}).exec();
+               if(!available) {
               data = new Entertainment({
                     author : news.author,
                     content : news.content,
@@ -85,9 +92,11 @@ exports.saveNews = async (req,res)=>{
                     title : news.title,
                     url : news.url,
                     urlToImage : news.urlToImage
-                });
+                });}
             }
             else if ( category =='General') {
+                let available = await General.find({title:news.title}).exec();
+                if(!available) {
                 data = new General({
                     author : news.author,
                     content : news.content,
@@ -98,9 +107,11 @@ exports.saveNews = async (req,res)=>{
                     title : news.title,
                     url : news.url,
                     urlToImage : news.urlToImage
-                });
+                });}
             }
             else if ( category =='Health') {
+                let available = await Health.find({title:news.title}).exec();
+                if(!available) {
                  data = new Health({
                     author : news.author,
                     content : news.content,
@@ -111,9 +122,11 @@ exports.saveNews = async (req,res)=>{
                     title : news.title,
                     url : news.url,
                     urlToImage : news.urlToImage
-                });
+                });}
             }
             else if ( category =='Technology') {
+                let available = await Technology.find({title:news.title}).exec();
+                if(!available) {
                data = new Technology({
                     author : news.author,
                     content : news.content,
@@ -124,9 +137,11 @@ exports.saveNews = async (req,res)=>{
                     title : news.title,
                     url : news.url,
                     urlToImage : news.urlToImage
-                });
+                });}
             }
             else {
+                let available = await Science.find({title:news.title}).exec();
+                if(!available) {
                 data = new Science({
                     author : news.author,
                     content : news.content,
@@ -137,8 +152,10 @@ exports.saveNews = async (req,res)=>{
                     title : news.title,
                     url : news.url,
                     urlToImage : news.urlToImage
-                });
+                });}
             }
+            let available = await News.find({title:news.title}).exec();
+             if(!available) {
             let homeNews = new News({
                 author : news.author,
                 content : news.content,
@@ -149,19 +166,21 @@ exports.saveNews = async (req,res)=>{
                 title : news.title,
                 url : news.url,
                 urlToImage : news.urlToImage
-            });
+            });}
+              if(data) {
             data.save((err,news)=>{
                 if(err) {
                     console.log(err);
                 } else
                 console.log(news);
-            });
+            });}
+              if(homeNews) {
             homeNews.save((err,news)=>{
                 if(err) {
                     console.log(err);
                 } else
                 console.log(news);
-            });
+            });}
         } else {
             newFlag = false;
         }
