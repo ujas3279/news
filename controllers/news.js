@@ -45,7 +45,7 @@ exports.saveNews = async (req,res)=>{
       }
     axios.get(uri)
     .then(async (res) =>{
-        res.data.articles.forEach(news => {
+        res.data.articles.forEach(async news => {
           let data;
           if (businessNews[0].title !== news.title && businessNews[0].description !== news.description && businessNews[0].url !== news.url && newFlag){
             if ( category =='Business') {
