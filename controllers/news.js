@@ -47,6 +47,7 @@ exports.saveNews = async (req,res)=>{
     .then(async (res) =>{
         res.data.articles.forEach(async news => {
           let data;
+           let homeNews;
           if (businessNews[0].title !== news.title && businessNews[0].description !== news.description && businessNews[0].url !== news.url && newFlag){
             if ( category =='Business') {
                 let available = await Business.find({title:news.title}).exec();
@@ -156,7 +157,7 @@ exports.saveNews = async (req,res)=>{
             }
             let available = await News.find({title:news.title}).exec();
              if(!available) {
-            let homeNews = new News({
+            homeNews = new News({
                 author : news.author,
                 content : news.content,
                 description : news.description,
