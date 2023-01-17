@@ -23,6 +23,7 @@ exports.saveNews = async (req,res)=>{
     var newFlag = true;
     const uri = `https://newsapi.org/v2/top-headlines?country=in&category=${category}&apiKey=2b1dd5e264704c8ab24d81980d9cf267&pageSize=100`;
     let businessNews;
+    let prevNews;
     if (category == 'Business') {
         businessNews = await Business.find().sort({publishedAt : -1}).limit(1).exec();
     }
@@ -44,14 +45,12 @@ exports.saveNews = async (req,res)=>{
         businessNews = await Technology.find().sort({publishedAt : -1}).limit(1).exec();
       }
     axios.get(uri)
-    .then(async (res) =>{
-        res.data.articles.forEach(async news => {
+    .then((res) =>{
+        res.data.articles.forEach(news => {
           let data;
-           let homeNews;
-          if (businessNews[0].title !== news.title && businessNews[0].description !== news.description && businessNews[0].url !== news.url && newFlag){
+          if (businessNews[0].title !== news.title || businessNews[0].description !== news.description || 
+            businessNews[0].url !== news.url || prevNews?.url !== news.url || prevNews?.title !== news.title || prevNews?.description !== news.description && newFlag){
             if ( category =='Business') {
-                let available = await Business.find({title:news.title}).exec();
-                if(!available) {
                 data = new Business({
                     author : news.author,
                     content : news.content,
@@ -63,11 +62,8 @@ exports.saveNews = async (req,res)=>{
                     url : news.url,
                     urlToImage : news.urlToImage
                 });
-                }
             }
             else if ( category =='Sports') {
-                 let available = await Sports.find({title:news.title}).exec();
-                if(!available) {
                  data = new Sports({
                     author : news.author,
                     content : news.content,
@@ -78,11 +74,9 @@ exports.saveNews = async (req,res)=>{
                     title : news.title,
                     url : news.url,
                     urlToImage : news.urlToImage
-                });}
+                });
             }
             else if ( category =='Entertainment') {
-               let available = await Entertainment.find({title:news.title}).exec();
-               if(!available) {
               data = new Entertainment({
                     author : news.author,
                     content : news.content,
@@ -93,11 +87,9 @@ exports.saveNews = async (req,res)=>{
                     title : news.title,
                     url : news.url,
                     urlToImage : news.urlToImage
-                });}
+                });
             }
             else if ( category =='General') {
-                let available = await General.find({title:news.title}).exec();
-                if(!available) {
                 data = new General({
                     author : news.author,
                     content : news.content,
@@ -108,11 +100,9 @@ exports.saveNews = async (req,res)=>{
                     title : news.title,
                     url : news.url,
                     urlToImage : news.urlToImage
-                });}
+                });
             }
             else if ( category =='Health') {
-                let available = await Health.find({title:news.title}).exec();
-                if(!available) {
                  data = new Health({
                     author : news.author,
                     content : news.content,
@@ -123,11 +113,9 @@ exports.saveNews = async (req,res)=>{
                     title : news.title,
                     url : news.url,
                     urlToImage : news.urlToImage
-                });}
+                });
             }
             else if ( category =='Technology') {
-                let available = await Technology.find({title:news.title}).exec();
-                if(!available) {
                data = new Technology({
                     author : news.author,
                     content : news.content,
@@ -138,11 +126,9 @@ exports.saveNews = async (req,res)=>{
                     title : news.title,
                     url : news.url,
                     urlToImage : news.urlToImage
-                });}
+                });
             }
             else {
-                let available = await Science.find({title:news.title}).exec();
-                if(!available) {
                 data = new Science({
                     author : news.author,
                     content : news.content,
@@ -153,11 +139,9 @@ exports.saveNews = async (req,res)=>{
                     title : news.title,
                     url : news.url,
                     urlToImage : news.urlToImage
-                });}
+                });
             }
-            let available = await News.find({title:news.title}).exec();
-             if(!available) {
-            homeNews = new News({
+            let homeNews = new News({
                 author : news.author,
                 content : news.content,
                 description : news.description,
@@ -167,21 +151,20 @@ exports.saveNews = async (req,res)=>{
                 title : news.title,
                 url : news.url,
                 urlToImage : news.urlToImage
-            });}
-              if(data) {
+            });
             data.save((err,news)=>{
                 if(err) {
                     console.log(err);
                 } else
                 console.log(news);
-            });}
-              if(homeNews) {
+            });
             homeNews.save((err,news)=>{
                 if(err) {
                     console.log(err);
                 } else
                 console.log(news);
-            });}
+            });
+            prevNews = news;
         } else {
             newFlag = false;
         }
@@ -251,7 +234,7 @@ exports.getHealthNews = (req,res)=>{
             total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
             page: page,
             pageSize: result.length,
-            data: JSON.parse(JSON.stringify(result))
+            data: result
             }
           });
     });
@@ -284,7 +267,7 @@ exports.getTechnologyNews = (req,res)=>{
             total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
             page: page,
             pageSize: result.length,
-            data: JSON.parse(JSON.stringify(result))
+            data: result
             }
           });
     });
@@ -317,7 +300,7 @@ exports.getSportsNews = (req,res)=>{
             total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
             page: page,
             pageSize: result.length,
-            data: JSON.parse(JSON.stringify(result))
+            data: result
             }
           });
     });
@@ -350,7 +333,7 @@ exports.getGeneralNews = (req,res)=>{
             total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
             page: page,
             pageSize: result.length,
-            data: JSON.parse(JSON.stringify(result))
+            data: result
             }
           });
     });
@@ -383,7 +366,7 @@ exports.getScienceNews = (req,res)=>{
             total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
             page: page,
             pageSize: result.length,
-            data: JSON.parse(JSON.stringify(result))
+            data: result
             }
           });
     });
@@ -416,7 +399,7 @@ exports.getEntertainmentNews = (req,res)=>{
             total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
             page: page,
             pageSize: result.length,
-            data: JSON.parse(JSON.stringify(result))
+            data: result
             }
           });
     });
@@ -449,7 +432,7 @@ exports.getBusinessNews = (req,res)=>{
             total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
             page: page,
             pageSize: result.length,
-            data: JSON.parse(JSON.stringify(result))
+            data: result
             }
           });
     });
@@ -503,7 +486,7 @@ exports.getHomeNews = async (req,res)=>{
     return res.json({
         message:"success",
         success: true,
-        data:JSON.parse(JSON.stringify(result))
+        data:result
       });
     
 }
