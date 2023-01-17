@@ -44,12 +44,13 @@ exports.saveNews = async (req,res)=>{
       } else {
         businessNews = await Technology.find().sort({publishedAt : -1}).limit(1).exec();
       }
+      prevNews = businessNews;
     axios.get(uri)
     .then((res) =>{
         res.data.articles.forEach(news => {
           let data;
-          if (businessNews[0].title !== news.title || businessNews[0].description !== news.description || 
-            businessNews[0].url !== news.url || prevNews?.url !== news.url || prevNews?.title !== news.title || prevNews?.description !== news.description && newFlag){
+          if (businessNews[0].title !== news.title && businessNews[0].description !== news.description && 
+            businessNews[0].url !== news.url && prevNews?.url !== news.url && prevNews?.title !== news.title && prevNews?.description !== news.description && newFlag){
             if ( category =='Business') {
                 data = new Business({
                     author : news.author,
@@ -184,15 +185,6 @@ exports.getNews = (req,res)=>{
     .limit(limit)
     .exec(async (err,data)=>{
         const count = await News.countDocuments();
-        var lookup = {};
-        var result = [];
-        for (var item, i = 0; item = data[i++];) {
-            var name = item.title;
-            if (!(name in lookup)) {
-                lookup[name] = 1;
-                result.push(data[i]);
-            }
-        }
         return res.json({
             message:"success",
             success: true,
@@ -200,8 +192,8 @@ exports.getNews = (req,res)=>{
             total_data: count,
             total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
             page: page,
-            pageSize: result.length,
-            data: JSON.parse(JSON.stringify(result))
+            pageSize: data.length,
+            data: data
             }
           });
     });
@@ -215,17 +207,6 @@ exports.getHealthNews = (req,res)=>{
     .limit(limit)
     .exec(async (err,data)=>{
         const count = await Health.countDocuments();
-        var lookup = {};
-        var result = [];
-
-        for (var item, i = 0; item = data[i++];) {
-            var name = item.title;
-
-            if (!(name in lookup)) {
-                lookup[name] = 1;
-                result.push(data[i]);
-            }
-        }
         return res.json({
             message:"success",
             success: true,
@@ -233,8 +214,8 @@ exports.getHealthNews = (req,res)=>{
             total_data: count,
             total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
             page: page,
-            pageSize: result.length,
-            data: result
+            pageSize: data.length,
+            data: data
             }
           });
     });
@@ -248,17 +229,6 @@ exports.getTechnologyNews = (req,res)=>{
     .limit(limit)
     .exec(async (err,data)=>{
         const count = await Technology.countDocuments();
-        var lookup = {};
-        var result = [];
-
-        for (var item, i = 0; item = data[i++];) {
-            var name = item.title;
-
-            if (!(name in lookup)) {
-                lookup[name] = 1;
-                result.push(data[i]);
-            }
-        }
         return res.json({
             message:"success",
             success: true,
@@ -266,8 +236,8 @@ exports.getTechnologyNews = (req,res)=>{
             total_data: count,
             total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
             page: page,
-            pageSize: result.length,
-            data: result
+            pageSize: data.length,
+            data: data
             }
           });
     });
@@ -281,17 +251,6 @@ exports.getSportsNews = (req,res)=>{
     .limit(limit)
     .exec(async (err,data)=>{
         const count = await Sports.countDocuments();
-        var lookup = {};
-        var result = [];
-
-        for (var item, i = 0; item = data[i++];) {
-            var name = item.title;
-
-            if (!(name in lookup)) {
-                lookup[name] = 1;
-                result.push(data[i]);
-            }
-        }
         return res.json({
             message:"success",
             success: true,
@@ -299,8 +258,8 @@ exports.getSportsNews = (req,res)=>{
             total_data: count,
             total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
             page: page,
-            pageSize: result.length,
-            data: result
+            pageSize: data.length,
+            data: data
             }
           });
     });
@@ -314,17 +273,6 @@ exports.getGeneralNews = (req,res)=>{
     .limit(limit)
     .exec(async (err,data)=>{
         const count = await General.countDocuments();
-        var lookup = {};
-        var result = [];
-
-        for (var item, i = 0; item = data[i++];) {
-            var name = item.title;
-
-            if (!(name in lookup)) {
-                lookup[name] = 1;
-                result.push(data[i]);
-            }
-        }
         return res.json({
             message:"success",
             success: true,
@@ -332,8 +280,8 @@ exports.getGeneralNews = (req,res)=>{
             total_data: count,
             total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
             page: page,
-            pageSize: result.length,
-            data: result
+            pageSize: data.length,
+            data: data
             }
           });
     });
@@ -347,17 +295,6 @@ exports.getScienceNews = (req,res)=>{
     .limit(limit)
     .exec(async (err,data)=>{
         const count = await Science.countDocuments();
-        var lookup = {};
-        var result = [];
-
-        for (var item, i = 0; item = data[i++];) {
-            var name = item.title;
-
-            if (!(name in lookup)) {
-                lookup[name] = 1;
-                result.push(data[i]);
-            }
-        }
         return res.json({
             message:"success",
             success: true,
@@ -365,8 +302,8 @@ exports.getScienceNews = (req,res)=>{
             total_data: count,
             total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
             page: page,
-            pageSize: result.length,
-            data: result
+            pageSize: data.length,
+            data: data
             }
           });
     });
@@ -380,17 +317,6 @@ exports.getEntertainmentNews = (req,res)=>{
     .limit(limit)
     .exec(async (err,data)=>{
         const count = await Entertainment.countDocuments();
-        var lookup = {};
-        var result = [];
-
-        for (var item, i = 0; item = data[i++];) {
-            var name = item.title;
-
-            if (!(name in lookup)) {
-                lookup[name] = 1;
-                result.push(data[i]);
-            }
-        }
         return res.json({
             message:"success",
             success: true,
@@ -398,8 +324,8 @@ exports.getEntertainmentNews = (req,res)=>{
             total_data: count,
             total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
             page: page,
-            pageSize: result.length,
-            data: result
+            pageSize: data.length,
+            data: data
             }
           });
     });
@@ -413,17 +339,6 @@ exports.getBusinessNews = (req,res)=>{
     .limit(limit)
     .exec(async (err,data)=>{
         const count = await Business.countDocuments();
-        var lookup = {};
-        var result = [];
-
-        for (var item, i = 0; item = data[i++];) {
-            var name = item.title;
-
-            if (!(name in lookup)) {
-                lookup[name] = 1;
-                result.push(data[i]);
-            }
-        }
         return res.json({
             message:"success",
             success: true,
@@ -431,8 +346,8 @@ exports.getBusinessNews = (req,res)=>{
             total_data: count,
             total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
             page: page,
-            pageSize: result.length,
-            data: result
+            pageSize: data.length,
+            data: data
             }
           });
     });
@@ -472,21 +387,47 @@ exports.getHomeNews = async (req,res)=>{
         businessNews.push(sportsNews[index]);
         
     }
-    var lookup = {};
-    var result = [];
-
-    for (var item, i = 0; item = businessNews[i++];) {
-        var name = item.title;
-
-        if (!(name in lookup)) {
-            lookup[name] = 1;
-            result.push(businessNews[i]);
-        }
-    }
     return res.json({
         message:"success",
         success: true,
-        data:result
+        data:businessNews
       });
     
+}
+
+exports.getSearchNews = (req,res)=>{
+    let limit = req.query.limit ? parseInt(req.query.limit) : 20;
+    let page = req.query.page ? parseInt(req.query.page) : 1;
+    let query = req.query.query ? req.query.query : '';
+    News.find({
+        $or:[{
+        title: {$regex : query , $options: "i"}
+      },
+      {
+        description: {$regex : query , $options: "i"}
+      }
+    ]}).sort({publishedAt : -1})
+    .skip((page-1) * limit)
+    .limit(limit)
+    .exec(async (err,data)=>{
+        const count = await News.countDocuments({
+            $or:[{
+            title: {$regex : query , $options: "i"}
+          },
+          {
+            description: {$regex : query , $options: "i"}
+          }
+        ]});
+        return res.json({
+            message:"success",
+            success: true,
+            data:{
+            total_data: count,
+            total_page: (count%limit==0)?parseInt(count/limit):(parseInt(count/limit))+1,
+            page: page,
+            pageSize: data.length,
+            data: data
+            }
+          });
+    });
 }

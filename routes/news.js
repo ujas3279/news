@@ -2,11 +2,12 @@ const express = require("express")
 const router = express.Router();
 
 
-const {getHomeNews,saveNews,getNews,getBusinessNews,getEntertainmentNews,getScienceNews,getGeneralNews,getSportsNews,getTechnologyNews,getCategories,getHealthNews} = require("../controllers/news");
+const {getSearchNews,getHomeNews,saveNews,getNews,getBusinessNews,getEntertainmentNews,getScienceNews,getGeneralNews,getSportsNews,getTechnologyNews,getCategories,getHealthNews} = require("../controllers/news");
 
 
 router.get("/news/save", saveNews);
 router.get("/news/all", getNews);
+router.get("/news/search", getSearchNews);
 router.get("/news/business", getBusinessNews);
 router.get("/news/entertainment", getEntertainmentNews);
 router.get("/news/science", getScienceNews);
