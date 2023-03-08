@@ -44,13 +44,16 @@ exports.saveNews = async (req,res)=>{
       } else {
         businessNews = await Technology.find().sort({publishedAt : -1}).limit(1).exec();
       }
-      prevNews = businessNews;
+      prevNews = businessNews[0];
     axios.get(uri)
     .then((res) =>{
         res.data.articles.forEach(news => {
           let data;
-          if (businessNews[0].title !== news.title && businessNews[0].description !== news.description && 
-            businessNews[0].url !== news.url && prevNews?.url !== news.url && prevNews?.title !== news.title && prevNews?.description !== news.description && newFlag){
+          let a = businessNews[0].title !== news.title;
+          let c = businessNews[0].url !== news.url;
+          let d = prevNews?.url !== news.url;
+          let e = prevNews?.title !== news.title;
+          if (businessNews[0].title !== news.title && businessNews[0].url !== news.url && prevNews?.url !== news.url && newFlag){
             if ( category =='Business') {
                 data = new Business({
                     author : news.author,
@@ -166,9 +169,9 @@ exports.saveNews = async (req,res)=>{
                 console.log(news);
             });
             prevNews = news;
-        } else {
-            newFlag = false;
-        }
+         } else {
+                newFlag = false;
+            }
         });
     })
     .catch(err => console.log(err))
